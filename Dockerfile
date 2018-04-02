@@ -10,7 +10,7 @@ RUN dnf update -y && dnf -y install nagios-plugins-all && \
                      dnf -y install sudo vim bash procps-ng && \
                      dnf -y clean all
 
-RUN mkdir -p /var/log/supervisor
+RUN sed -i -e 's/logfile/#logfile/g' /etc/supervisord.conf
 
 RUN mkdir -p /var/run/alignak && chown -Rf nagios:nagios /var/run/alignak 
 
@@ -22,4 +22,4 @@ USER user
 
 WORKDIR /home/user
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf", "-n"]
+CMD ["/usr/bin/supervisord"]
