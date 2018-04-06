@@ -11,15 +11,17 @@ RUN dnf update -y && dnf -y install nagios-plugins-all && \
                      dnf -y clean all
 
 RUN sed -i -e 's/logfile/#logfile/g' /etc/supervisord.conf
+RUN sed -i -e 's/loglevel/#loglevel/g' /etc/supervisord.conf
+RUN sed -i -e 's/nodaemon=false/nodaemon=true/g' /etc/supervisord.conf
 
 RUN mkdir -p /var/run/alignak && chown -Rf nagios:nagios /var/run/alignak 
 
-RUN useradd -m -g wheel -d /home/user user && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers                     
+#RUN useradd -m -g wheel -d /home/user user && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers                     
 
 COPY alignak-*.ini /etc/supervisord.d/
 
-USER user
+USER root
 
-WORKDIR /home/user
+WORKDIR /var/lib/alignak
 
 CMD ["/usr/bin/supervisord"]
