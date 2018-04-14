@@ -16,8 +16,6 @@ RUN sed -i -e 's/nodaemon=false/nodaemon=true/g' /etc/supervisord.conf
 
 RUN mkdir -p /var/run/alignak && chown -Rf nagios:nagios /var/run/alignak 
 
-#RUN useradd -m -g wheel -d /home/user user && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers                     
-
 COPY alignak-*.ini /etc/supervisord.d/
 
 USER root
